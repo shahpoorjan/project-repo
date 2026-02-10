@@ -1,4 +1,5 @@
-name: fast api pipline
+name: fast api pipeline
+
 on:
   push:
     branches:
@@ -7,44 +8,50 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  IMAGE_TAG: ${{ github.sha }} 
-  ECR_REPO:  shah
-
+  IMAGE_TAG: ${{ github.sha }}
+  ECR_REPO: shah
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
+
     permissions:
       id-token: write
       contents: read
-  
-      ##
+
     steps:
       - name: checkout repo
-        uses: actions/checkout@v4 
+        uses: actions/checkout@v4
 
       - name: aws assume role
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::929368846026:role/role-oidc-second
           aws-region: ${{ env.AWS_REGION }}
+
       - name: ecr login
         id: login
         uses: aws-actions/amazon-ecr-login@v2
+
       - name: build docker image
         run: |
           docker build -t $ECR_REPO:$IMAGE_TAG .
-      - name: Tag image
+
+      # 🔒 Trivy scan step
+      - name: scan image with trivy
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          image-ref: ${{ env.ECR_REPO }}:${{ env.IMAGE_TAG }}
+          format: table
+          exit-code: 1
+          severity: CRITICAL,HIGH
+
+      - name: tag image
         run: |
           docker tag $ECR_REPO:$IMAGE_TAG \
           ${{ steps.login.outputs.registry }}/$ECR_REPO:$IMAGE_TAG
+
       - name: push to ecr
         run: |
-         docker push \
-         ${{ steps.login.outputs.registry }}/$ECR_REPO:$IMAGE_TAG
-###
-      # - name: build docker image
-      #   run: |
-      #     docker build -t fast-api:${{ github.sha}} .
-      #     echo running docker ls
-      #     docker image ls
+          docker push \
+          ${{ steps.login.outputs.registry }}/$ECR_REPO:$IMAGE_TAG
