@@ -12,4 +12,5 @@ jobs:
       - name: build docker image
         run: |
           docker build -t fast-api:${{ github.sha}} .
+          echo running docker ls
           docker image ls
