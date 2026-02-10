@@ -22,6 +22,10 @@ jobs:
     steps:
       - name: checkout repo
         uses: actions/checkout@v4
+      - name: docker linting
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+            dockerfile: dockerfile
 
       - name: aws assume role
         uses: aws-actions/configure-aws-credentials@v4
