@@ -26,7 +26,7 @@ jobs:
       - name: aws assume role
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::929368846026:role/role-oidc-second
+          role-to-assume: arn:aws:iam::929368846026:role/new-github-role
           aws-region: ${{ env.AWS_REGION }}
 
 
