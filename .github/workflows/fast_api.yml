@@ -32,6 +32,10 @@ jobs:
       - name: ecr login
         id: login
         uses: aws-actions/amazon-ecr-login@v2
+      - name: tag image
+        run: |
+          docker tag $ECR_REPO:$IMAGE_TAG \
+          ${{ steps.login.outputs.registry }}/$ECR_REPO:$IMAGE_TAG
 
       - name: build docker image
         run: |
@@ -45,10 +49,7 @@ jobs:
           exit-code: 1
           severity: CRITICAL
 
-      - name: tag image
-        run: |
-          docker tag $ECR_REPO:$IMAGE_TAG \
-          ${{ steps.login.outputs.registry }}/$ECR_REPO:$IMAGE_TAG
+
 
       - name: push to ecr
         run: |
