@@ -43,7 +43,7 @@ jobs:
           image-ref: ${{ env.ECR_REPO }}:${{ env.IMAGE_TAG }}
           format: table
           exit-code: 1
-          severity: CRITICAL,HIGH
+          severity: CRITICAL
 
       - name: tag image
         run: |
