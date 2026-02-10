@@ -2,10 +2,10 @@ name: fast api pipline
 on:
   push:
     branches:
-      - feature/fastapi
+      - feature/shah
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: checkout repo
-        uses: action/checkout@v4
+        uses: actions/checkout@v4 
