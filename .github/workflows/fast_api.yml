@@ -2,15 +2,38 @@ name: fast api pipline
 on:
   push:
     branches:
+      - main
       - feature/shah
+
+env:
+  AWS_REGION: us-east-1
+  IMAGE_TAG: ${{ github.sha }} 
+  ECR_REPO: shah
+
+
+
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+  
+      
     steps:
       - name: checkout repo
         uses: actions/checkout@v4 
-      - name: build docker image
-        run: |
-          docker build -t fast-api:${{ github.sha}} .
-          echo running docker ls
-          docker image ls
+
+      - name: aws assume role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::929368846026:role/role-oidc-second
+          aws-region: ${{ env.AWS_REGION }}
+
+
+      # - name: build docker image
+      #   run: |
+      #     docker build -t fast-api:${{ github.sha}} .
+      #     echo running docker ls
+      #     docker image ls
