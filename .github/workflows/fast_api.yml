@@ -3,7 +3,7 @@ name: FastAPI CI/CD
 on:
   push:
     branches:
-      - main
+      - feature/shah
 
 env:
   AWS_REGION: us-east-1
