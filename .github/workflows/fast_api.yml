@@ -10,8 +10,6 @@ env:
   IMAGE_TAG: ${{ github.sha }} 
   ECR_REPO: shah
 
-####
-
 
 jobs:
   build-deploy:
