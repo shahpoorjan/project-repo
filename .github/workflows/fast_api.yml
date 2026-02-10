@@ -76,5 +76,5 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume:  arn:aws:iam::929368846026:role/role-oidc-second
-          aws-region:  $AWS_REGION
+          aws-region:  us-east-1
     ### CONNECTING TO EKS
