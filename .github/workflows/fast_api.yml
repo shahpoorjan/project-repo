@@ -28,6 +28,9 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::929368846026:role/role-oidc-second
           aws-region: ${{ env.AWS_REGION }}
+      - name: ecr login
+        id: login
+        uses: aws-actions/amazon-ecr-login@v2
 
 ###
       # - name: build docker image
