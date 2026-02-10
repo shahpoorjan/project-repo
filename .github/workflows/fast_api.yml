@@ -26,10 +26,10 @@ jobs:
       - name: aws assume role
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::929368846026:role/new-github-role
+          role-to-assume: arn:aws:iam::929368846026:role/role-oidc-second
           aws-region: ${{ env.AWS_REGION }}
 
-
+###
       # - name: build docker image
       #   run: |
       #     docker build -t fast-api:${{ github.sha}} .
