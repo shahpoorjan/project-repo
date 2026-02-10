@@ -8,7 +8,7 @@ on:
 env:
   AWS_REGION: us-east-1
   IMAGE_TAG: ${{ github.sha }} 
-  ECR_REPO: shah
+  ECR_REPO:  shah
 
 
 jobs:
@@ -31,6 +31,9 @@ jobs:
       - name: ecr login
         id: login
         uses: aws-actions/amazon-ecr-login@v2
+      - name: build docker image
+        run: |
+          docker build -t fast-api:${{ env.IMAGE_TAG }} .
 
 ###
       # - name: build docker image
