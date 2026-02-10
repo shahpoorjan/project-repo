@@ -89,7 +89,7 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@v4
 
-      #### Deploying
+      ####### Deploying
       - name: Helm deploy
         run: |
           helm upgrade --install fastapi ./helm \
