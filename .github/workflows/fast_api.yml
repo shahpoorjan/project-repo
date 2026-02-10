@@ -5,7 +5,7 @@ on:
     branches:
       - feature/shah
 
-env:
+env:  
   AWS_REGION: us-east-1
   ECR_REPO: shah
   CLUSTER_NAME: fastapi-new-cluster
@@ -78,15 +78,20 @@ jobs:
           role-to-assume: arn:aws:iam::929368846026:role/role-oidc-second
           aws-region: ${{ env.AWS_REGION }}
 
-          # Connect to the EKS
+
+      - name: ECR login
+        id: login
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # Connect to the eks
       - name: Update kubeconfig
         run: |
           aws eks update-kubeconfig \
             --region $AWS_REGION \
             --name $CLUSTER_NAME
 
-      # Installing   Helm
-      - name: Install Helm
+      # Installing Helm
+      - name: Install helm
         uses: azure/setup-helm@v4
 
       ####### Deploying
