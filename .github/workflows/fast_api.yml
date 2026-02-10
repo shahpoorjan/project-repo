@@ -58,3 +58,23 @@ jobs:
         run: |
           docker push \
           ${{ steps.login.outputs.registry }}/$ECR_REPO:$IMAGE_TAG
+
+
+#################      #   ##################
+################# CD PART ##################
+  cd:
+    needs: build-deploy
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+      - name: aws auth
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume:  arn:aws:iam::929368846026:role/role-oidc-second
+          aws-region:  $AWS_REGION
+    ### CONNECTING TO EKS
