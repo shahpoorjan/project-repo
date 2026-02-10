@@ -9,3 +9,6 @@ jobs:
     steps:
       - name: checkout repo
         uses: actions/checkout@v4 
+      - name: build docker image
+        run: |
+          docker build -t fast-api $IMAGE_NAME:${{ github.shah}} .
